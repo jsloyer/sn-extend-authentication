@@ -117,7 +117,7 @@ class SnExtendAuthentication {
 				<label><input type="checkbox" name="default_auth_mode" value="1"
 				<?php print (isset($advancedOptions['default_auth_mode']) && $advancedOptions['default_auth_mode'] == 1) ? ' checked="checked"' : '' ?> />
 				<?php print __('Disable Anonymous Site Browsing') ?> </label>
-                <p class="description"><?php print __("(Note: Browsing for non authenticated users for specific post/pages can be turn on/off. Priority will be given to post/page specific authentication setting over default 'Anonymous Site Browsing')"); ?></p>
+                <p class="description"><?php print __("(Note: Configuration for post/page specific non authenticated users browsing can be turn on/off. Priority will be given to post/page specific authentication setting over default 'Anonymous Site Browsing')"); ?></p>
 			</div>
 		</div>
 		<div class='element'>
@@ -211,7 +211,7 @@ function custom_get_page_by_path($page_path, $output = OBJECT) {
 $authentic_user_meta->title = 'Authenticated Users Only';
 $authentic_user_meta->html = <<<HEREHTML
 	<div class="inside control"><label class="selectit"><input type="checkbox" name="authentic_user_value" id="authentic_user_value" value="1" class="auth_check"/>
-	Checkmark to display only to authenticated users.</label></div>
+	Restrict Post to Authenticated Users.</label></div>
 HEREHTML;
 
 /* After declaring your metaboxes, add the two hooks to make it all go! */
@@ -239,19 +239,18 @@ if($query[0] == 'p' || $query[0] == 'page_id' || isset($post_id)) {
     $postid = $post_id;
   }
   $authentic_user_info = get_post_meta($postid, 'metabox');
-
-  if(isset($authentic_user_info[0]['authentic_user']['authentic_user_value']) &&
-  $authentic_user_info[0]['authentic_user']['authentic_user_value'] == 1) {
-    $auth_flag = 1;
+  
+  if(count($authentic_user_info) == 0) {
+    $auth_flag = isset($advancedOptions['default_auth_mode']) ? $advancedOptions['default_auth_mode'] : 0;
     $authenticator = new SnExtendAuthentication($auth_flag);
   }
-  else{
-    $auth_flag = isset($advancedOptions['default_auth_mode']) ? $advancedOptions['default_auth_mode'] : 0;
+  else if(count($authentic_user_info) > 0 && $authentic_user_info[0]['authentic_user']['authentic_user_value'] == 1) {
+    $auth_flag = 1;
     $authenticator = new SnExtendAuthentication($auth_flag);
   }
 }
 
-elseif($query[0] == 'feed' || (isset ($feed_url[2]) && $feed_url[2] == 'feed')) {
+elseif($query[0] == 'feed' || $feed_url[2] == 'feed') {
   if(isset($feed_auth) && $feed_auth == 1) {
     $auth_flag = 1;
     $authenticator = new SnExtendAuthentication($auth_flag);
