@@ -1,0 +1,46 @@
+.wrap_auth{width: 100%; margin-top: 20px;}
+.wrap_auth input[type="checkbox"], .wrap_auth input[type="radio"] {
+    margin: 21px 310px 20px 128px;
+    padding: 6px;
+    vertical-align: bottom;
+}
+.wrap_auth .auth_button-primary {
+    background-color: #21759B;
+    background-image: linear-gradient(to bottom, #2A95C5, #21759B);
+    border-color: #21759B #21759B #1E6A8D;
+    box-shadow: 0 1px 0 rgba(120, 200, 230, 0.5) inset;
+    color: #FFFFFF;
+    text-decoration: none;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.wrap_auth .auth_button, .wrap_auth .auth_button-primary, .wrap_auth .auth_button-secondary {
+    -moz-box-sizing: border-box;
+    border-radius: 3px 3px 3px 3px;
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    text-decoration: none;
+    white-space: nowrap;
+    margin-bottom: 10px;
+}
+#message_auth { padding:10px 10px;}
+.element {clear:both; float:left;margin:5px 0;width:100%;}
+.element .control {clear:both;width:inherit;}
+.element .control input{margin:0 25px 0 0; float:left;}
+
+.wrap_auth .description{    
+  font-family: sans-serif;
+    font-size: 12px;
+    font-style: italic;
+    margin-left: 40px;
+    color: #666666;
+}
+
+  
+  
+  
+  
+  
+  
