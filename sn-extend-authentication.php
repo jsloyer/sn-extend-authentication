@@ -250,7 +250,7 @@ if($query[0] == 'p' || $query[0] == 'page_id' || isset($post_id)) {
   }
 }
 
-elseif($query[0] == 'feed' || $feed_url[2] == 'feed') {
+elseif($query[0] == 'feed' || (isset ($feed_url[2]) && $feed_url[2] == 'feed')) {
   if(isset($feed_auth) && $feed_auth == 1) {
     $auth_flag = 1;
     $authenticator = new SnExtendAuthentication($auth_flag);
