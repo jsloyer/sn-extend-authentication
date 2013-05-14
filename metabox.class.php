@@ -56,8 +56,15 @@ class metabox {
 	require_once('simple_html_dom.php');
 	$html = new simple_html_dom();
 	$html->load($this->html);
+    $advancedOptions = get_option('authentication_settings');
 	if($data) {
 		foreach($data as $key => $value) {
+          if($key == 'metabox' && $value == '') {
+            foreach ($html->find('[name=authentic_user_value]') as $e) {
+              $e->checked = (isset ($advancedOptions['default_auth_mode']) && $advancedOptions['default_auth_mode'] == 1) ? 1 : null;
+            }
+          }
+          else {
               foreach ($html->find('[name='.$key.']') as $e) {
                   $tag = $e->tag;
 
@@ -83,6 +90,7 @@ class metabox {
                           break;
                   }
               }
+           }
 		}
         
 		$this->html = $html;//Save our HTML modified with previously saved values back into the Object.

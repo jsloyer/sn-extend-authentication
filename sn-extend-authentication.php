@@ -1,10 +1,9 @@
 <?php
 /*
  Plugin Name: SN Extend Authentication
- Description: This plugin allows you to make your WordPress site Posts accessible to logged in users.
- In other words to view your site they have to create / have an account in your site and be logged in.
+ Description: Plugin allows admin to disable anonymous users browsing of selective posts, pages, feeds or complete WordPress site.
  Author: Paritosh Gautam
- Version: 1.0
+ Version: 1.1
  License: GPLv2
  */
 require_once('metabox.class.php'); //Include the Class
@@ -117,7 +116,7 @@ class SnExtendAuthentication {
 				<label><input type="checkbox" name="default_auth_mode" value="1"
 				<?php print (isset($advancedOptions['default_auth_mode']) && $advancedOptions['default_auth_mode'] == 1) ? ' checked="checked"' : '' ?> />
 				<?php print __('Disable Anonymous Site Browsing') ?> </label>
-                <p class="description"><?php print __("(Note: Browsing for non authenticated users for specific post/pages can be turn on/off. Priority will be given to post/page specific authentication setting over default 'Anonymous Site Browsing')"); ?></p>
+                <p class="description"><?php print __("(Note: Configuration for post/page specific non authenticated users browsing can be turn on/off. Priority will be given to post/page specific authentication setting over default 'Anonymous Site Browsing')"); ?></p>
 			</div>
 		</div>
 		<div class='element'>
@@ -211,7 +210,7 @@ function custom_get_page_by_path($page_path, $output = OBJECT) {
 $authentic_user_meta->title = 'Authenticated Users Only';
 $authentic_user_meta->html = <<<HEREHTML
 	<div class="inside control"><label class="selectit"><input type="checkbox" name="authentic_user_value" id="authentic_user_value" value="1" class="auth_check"/>
-	Checkmark to display only to authenticated users.</label></div>
+	Show To Authenticated Users.</label></div>
 HEREHTML;
 
 /* After declaring your metaboxes, add the two hooks to make it all go! */
@@ -239,14 +238,13 @@ if($query[0] == 'p' || $query[0] == 'page_id' || isset($post_id)) {
     $postid = $post_id;
   }
   $authentic_user_info = get_post_meta($postid, 'metabox');
-
-  if(isset($authentic_user_info[0]['authentic_user']['authentic_user_value']) &&
-  $authentic_user_info[0]['authentic_user']['authentic_user_value'] == 1) {
-    $auth_flag = 1;
+  
+  if(count($authentic_user_info) == 0) {
+    $auth_flag = isset($advancedOptions['default_auth_mode']) ? $advancedOptions['default_auth_mode'] : 0;
     $authenticator = new SnExtendAuthentication($auth_flag);
   }
-  else{
-    $auth_flag = isset($advancedOptions['default_auth_mode']) ? $advancedOptions['default_auth_mode'] : 0;
+  else if(count($authentic_user_info) > 0 && $authentic_user_info[0]['authentic_user']['authentic_user_value'] == 1) {
+    $auth_flag = 1;
     $authenticator = new SnExtendAuthentication($auth_flag);
   }
 }
