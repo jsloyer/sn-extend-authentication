@@ -57,7 +57,7 @@ Features:
 
 == For Advanced Users ==
 
-Advanced users can edit the CSS for post/page widget and 'SN Authentication Settings' page. 
+Advanced users can edit the CSS for post/page widget and 'Authentication Settings' page. 
 
 We would appreciate your views and suggestions to make this plugin more useful. Please mail us at paritoshgautam@hotmail.com
 
