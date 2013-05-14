@@ -47,7 +47,7 @@ Features:
  Select the option 'Disable Anonymous Site Browsing' in 'Authentication Settings' page and save your change. This will restrict your site from anonymous browsing.
 
 = Where can I enable/disable anonymous browsing at a post level =
- You can find widget 'Authenticated Users Only' at every add/edit post, custom post, page. Admin user need to check/uncheck 'Show To Authenticated Users' checkbox and Update post to enable/disable post level anonymous browsing.
+ You can find widget 'Authenticated Users Only' at every add/edit post, custom post, page. Currently not available with quick edit. Admin user need to check/uncheck 'Show To Authenticated Users' checkbox and Update post to enable/disable post level anonymous browsing.
 
 = I want to enable anonymous browsing for specific posts/content when the complete website is restricted to authenticated users =
  Admin user can 'Disable Anonymous Site Browsing' in 'Authentication Settings' page but priority will be given to post/page specific authentication setting over default.
