@@ -1,10 +1,9 @@
 <?php
 /*
  Plugin Name: SN Extend Authentication
- Description: This plugin allows you to make your WordPress site Posts accessible to logged in users.
- In other words to view your site they have to create / have an account in your site and be logged in.
+ Description: Plugin allows admin to disable anonymous users browsing of selective posts, pages, feeds or complete WordPress site.
  Author: Paritosh Gautam
- Version: 1.0
+ Version: 1.1
  License: GPLv2
  */
 require_once('metabox.class.php'); //Include the Class
@@ -211,7 +210,7 @@ function custom_get_page_by_path($page_path, $output = OBJECT) {
 $authentic_user_meta->title = 'Authenticated Users Only';
 $authentic_user_meta->html = <<<HEREHTML
 	<div class="inside control"><label class="selectit"><input type="checkbox" name="authentic_user_value" id="authentic_user_value" value="1" class="auth_check"/>
-	Restrict Post to Authenticated Users.</label></div>
+	Show To Authenticated Users.</label></div>
 HEREHTML;
 
 /* After declaring your metaboxes, add the two hooks to make it all go! */
