@@ -27,6 +27,11 @@ Features:
 * Site admin can turn on/off browsing for non authenticated users on complete website.
 * Site admin can turn on/off feed reading for non authenticated users.
 
+
+= Using the Plugin =
+[Configuration Instruction](http://snideas.wordpress.com/2013/05/19/sn-extend-authentication-5-minute-guide/)
+
+
 == Installation ==
 1. Upload the folder 'sn-extend-authentication' to the '/wp-content/plugins/' directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
