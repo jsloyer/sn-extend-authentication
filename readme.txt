@@ -3,8 +3,8 @@ Contributors: Paritosh Gautam
 Donate link: 
 Tags: login, authentication, accessible, access, members
 Requires at least: 2.8
-Tested up to: 3.5.1
-Stable tag: 1.1
+Tested up to: 3.6
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,13 +31,15 @@ Features:
 = Using the Plugin =
 [Configuration Instruction](http://snideas.wordpress.com/2013/05/19/sn-extend-authentication-5-minute-guide/)
 
-
 == Installation ==
 1. Upload the folder 'sn-extend-authentication' to the '/wp-content/plugins/' directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. You may also refer installation.html in plugin's directory for more information.
 
 == Changelog ==
+= 1.2 =
+* Added support for version 3.6
+
 = 1.1 =
 * Added improved UI & updated FAQ
 
@@ -52,9 +54,9 @@ Features:
  Select the option 'Disable Anonymous Site Browsing' in 'Authentication Settings' page and save your change. This will restrict your site from anonymous browsing.
 
 = Where can I enable/disable anonymous browsing at a post level =
- You can find widget 'Authenticated Users Only' at every add/edit post, custom post, page. Currently not available with quick edit. Admin user need to check/uncheck 'Show To Authenticated Users' checkbox and Update post to enable/disable post level anonymous browsing.
+ You can find widget 'Authenticated Users Only' at every add/edit post, custom post, page. Admin user need to check/uncheck 'Show To Authenticated Users' checkbox and Update post to enable/disable post level anonymous browsing.
 
-= I want to enable anonymous browsing for specific posts/content when the complete website is restricted to authenticated users = 
+= I want to enable anonymous browsing for specific posts/content when the complete website is restricted to authenticated users.=
  Admin user can 'Disable Anonymous Site Browsing' in 'Authentication Settings' page but priority will be given to post/page specific authentication setting over default.
 
 = What will be the impact if I deactivate the plugin = 
@@ -62,7 +64,7 @@ Features:
 
 == For Advanced Users ==
 
-Advanced users can edit the CSS for post/page widget and 'Authentication Settings' page. 
+Advanced users can edit the CSS for post/page widget and 'SN Authentication Settings' page. 
 
 We would appreciate your views and suggestions to make this plugin more useful. Please mail us at paritoshgautam@hotmail.com
 
