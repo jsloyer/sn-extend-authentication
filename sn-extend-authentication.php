@@ -1,9 +1,11 @@
 <?php
+ob_start();
 /*
  Plugin Name: SN Extend Authentication
  Description: Plugin allows admin to disable anonymous users browsing of selective posts, pages, feeds or complete WordPress site.
  Author: Paritosh Gautam
- Version: 1.1
+ Author URI: http://in.linkedin.com/pub/paritosh-gautam/23/15/418
+ Version: 1.2
  License: GPLv2
  */
 require_once('metabox.class.php'); //Include the Class
@@ -52,8 +54,6 @@ class SnExtendAuthentication {
      * Checks if a user is logged in or has rights on the blog in multisite,
      * if not redirects them to the login page
      */
-    
-    
       $reauth = ! current_user_can( 'read' ) &&
       function_exists('is_multisite') &&
       is_multisite() ? TRUE : FALSE;
@@ -89,55 +89,52 @@ class SnExtendAuthentication {
       $this->update_authentication_ext_options();
       unset($_POST);
     }
-
-
-    ?>
-    <?php screen_icon(); ?>
-<h2>Authentication Settings</h2>
+    screen_icon(); ?>
+    <h2>Authentication Settings</h2>
     <?php
     if (isset($_GET['update']) && $_GET['update'] == 'true') {
       $message = __('Settings Updated Successfully');
     }
     if (isset($message)) {
       ?>
-<div class="updated" id="message_auth">
-<?php print $message; ?>
-</div>
-<?php
-    }
-    if(isset($_SESSION['authentication_message'])) {
-      unset($_SESSION['authentication_message']);
-    }
-    ?>
-<div class="wrap_auth">
-	<form method="post" name="authentication_settings" action="#">
-		<div class='element'>
-			<div class='control'>
-				<label><input type="checkbox" name="default_auth_mode" value="1"
-				<?php print (isset($advancedOptions['default_auth_mode']) && $advancedOptions['default_auth_mode'] == 1) ? ' checked="checked"' : '' ?> />
-				<?php print __('Disable Anonymous Site Browsing') ?> </label>
-                <p class="description"><?php print __("(Note: Configuration for post/page specific non authenticated users browsing can be turn on/off. Priority will be given to post/page specific authentication setting over default 'Anonymous Site Browsing')"); ?></p>
-			</div>
-		</div>
-		<div class='element'>
-			<div class='control'>
-				<label><input type="checkbox" name="feed_auth_mode" value="1"
-				<?php print (isset($advancedOptions['feed_auth_mode']) && $advancedOptions['feed_auth_mode'] == 1) ? ' checked="checked"' : '' ?> />
-				<?php print __('Disable Anonymous Feeds Reading') ?> </label>
-			</div>
-		</div>
-		<div class='element'>
-			<div class='control submit'>
-				<input type="submit" value="Save Changes"
-					class="auth_button auth_button-primary" id="submit" name="submit">
-			</div>
-		</div>
+    <div class="updated" id="message_auth">
+    <?php print $message; ?>
+    </div>
+    <?php
+        }
+        if(isset($_SESSION['authentication_message'])) {
+          unset($_SESSION['authentication_message']);
+        }
+        ?>
+    <div class="wrap_auth">
+      <form method="post" name="authentication_settings" action="#">
+        <div class='element'>
+          <div class='control'>
+            <label><input type="checkbox" name="default_auth_mode" value="1"
+            <?php print (isset($advancedOptions['default_auth_mode']) && $advancedOptions['default_auth_mode'] == 1) ? ' checked="checked"' : '' ?> />
+            <?php print __('Disable Anonymous Site Browsing') ?> </label>
+                    <p class="description"><?php print __("(Note: Configuration for post/page specific non authenticated users browsing can be turn on/off. Priority will be given to post/page specific authentication setting over default 'Anonymous Site Browsing')"); ?></p>
+          </div>
+        </div>
+        <div class='element'>
+          <div class='control'>
+            <label><input type="checkbox" name="feed_auth_mode" value="1"
+            <?php print (isset($advancedOptions['feed_auth_mode']) && $advancedOptions['feed_auth_mode'] == 1) ? ' checked="checked"' : '' ?> />
+            <?php print __('Disable Anonymous Feeds Reading') ?> </label>
+          </div>
+        </div>
+        <div class='element'>
+          <div class='control submit'>
+            <input type="submit" value="Save Changes"
+              class="auth_button auth_button-primary" id="submit" name="submit">
+          </div>
+        </div>
 
-	</form>
-</div>
+      </form>
+    </div>
 <?php
+        ob_end_flush();
   }
-
   /**
    * Function to save authentication option form
    */
@@ -153,7 +150,7 @@ class SnExtendAuthentication {
   /**
    * Function to update authentication option form
    */
-  private function update_authentication_ext_options(){
+  private function update_authentication_ext_options() {
     $advancedOptions = array(
          'default_auth_mode' => isset($_POST['default_auth_mode']) ? $_POST['default_auth_mode'] : 0,
           'feed_auth_mode' => isset($_POST['feed_auth_mode'])? $_POST['feed_auth_mode'] : 0);
@@ -163,7 +160,6 @@ class SnExtendAuthentication {
     wp_redirect($url . '&update=true');
   }
 } // end class
-
 
 /**
  * Function to get post id based on url
@@ -217,8 +213,6 @@ HEREHTML;
 add_action('admin_menu', 'create_box');
 add_action('save_post', 'save_box');
 
-
-global $post, $page_id;
 // Get authentication option
 $advancedOptions = get_option('authentication_settings');
 $feed_auth = isset ($advancedOptions['feed_auth_mode']) ? $advancedOptions['feed_auth_mode'] : 0;

@@ -1,6 +1,14 @@
 <?php
+/**
+ * File to handle admin post/page display box
+ */
+
 $boxes = array();
 $data = array();
+
+/**
+ * Class for handling display meta box.
+ */
 class metabox {
 	function __construct($key) { //Default properties for metabox object.
         global $boxes;
@@ -104,6 +112,9 @@ class metabox {
 	}
 }
 
+/**
+ * Function to Create display box for admin Post/Page Edit Page.
+ */
 function create_box() {
 	global $boxes;
 	foreach ($boxes as $box) {
@@ -121,6 +132,9 @@ function create_box() {
 	}
 }
 
+/**
+ * Function to save Post/Page display box option.
+ */
 function save_box($post_id) {
 	global $post, $boxes;
 	if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
@@ -170,6 +184,10 @@ function save_box($post_id) {
 		}
 	}
 }
+
+/**
+ * Function to show hide display box.
+ */
 function metabox_show_hide() { //JavaScript to make Metaboxes show and hide based on selected categories. 
 		global $boxes;
 		$category_js;
@@ -262,10 +280,12 @@ HEREHTML;
 	}
 //	add_action('admin_footer-post.php', 'metabox_show_hide');
 //	add_action('admin_init', 'load_jquery');
-    
+
+/**
+ * Function to add jQuery.
+ */    
 function load_jquery() {
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('jquery-ui-core');
 }
-	
 ?>
