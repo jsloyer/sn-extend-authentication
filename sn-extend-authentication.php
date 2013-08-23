@@ -1,5 +1,4 @@
 <?php
-ob_start();
 /*
  Plugin Name: SN Extend Authentication
  Description: Plugin allows admin to disable anonymous users browsing of selective posts, pages, feeds or complete WordPress site.
@@ -8,6 +7,8 @@ ob_start();
  Version: 1.2
  License: GPLv2
  */
+
+ob_start();
 require_once('metabox.class.php'); //Include the Class
 
 // check for uses in WP
@@ -133,7 +134,7 @@ class SnExtendAuthentication {
       </form>
     </div>
 <?php
-        ob_end_flush();
+    ob_end_flush();
   }
   /**
    * Function to save authentication option form
