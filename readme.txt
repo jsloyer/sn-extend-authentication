@@ -3,8 +3,8 @@ Contributors: Paritosh Gautam
 Donate link: 
 Tags: login, authentication, accessible, access, members
 Requires at least: 2.8
-Tested up to: 3.6
-Stable tag: 1.2
+Tested up to: 3.8
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,9 @@ Features:
 3. You may also refer installation.html in plugin's directory for more information.
 
 == Changelog ==
+= 1.3 =
+* Added support for version 3.8
+
 = 1.2 =
 * Added support for version 3.6
 
