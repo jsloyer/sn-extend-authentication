@@ -4,7 +4,7 @@
  Description: Plugin allows admin to disable anonymous users browsing of selective posts, pages, feeds or complete WordPress site.
  Author: Paritosh Gautam
  Author URI: http://in.linkedin.com/pub/paritosh-gautam/23/15/418
- Version: 1.2
+ Version: 1.3
  License: GPLv2
  */
 
