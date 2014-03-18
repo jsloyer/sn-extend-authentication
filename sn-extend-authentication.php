@@ -162,46 +162,6 @@ class SnExtendAuthentication {
   }
 } // end class
 
-/**
- * Function to get post id based on url
- */
-function custom_get_page_by_path($page_path, $output = OBJECT) {
-  global $wpdb;
-  $page_path = rawurlencode(urldecode($page_path));
-  $page_path = str_replace('%2F', '/', $page_path);
-  $page_path = str_replace('%20', ' ', $page_path);
-  $parts = explode( '/', trim( $page_path, '/' ) );
-  $parts = array_map('esc_sql', $parts);
-  $parts = array_map('sanitize_title_for_query', $parts);
-
-  $in_string = "'". implode( "','", $parts ) . "'";
-  $pages = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_type FROM $wpdb->posts WHERE post_name IN ($in_string) AND (post_type IN ('page', 'post') OR post_type = 'attachment')", OBJECT_K );
-  if(!in_array('archives', $parts)) {
-    $revparts = array_reverse( $parts );
-    foreach ((array) $pages as $page) {
-      if ($page->post_name == $revparts[0]) {
-        $count = 0;
-        $p = $page;
-        while ($p->post_parent != 0 && isset($pages[ $p->post_parent ])) {
-          $count++;
-          $parent = $pages[ $p->post_parent ];
-          if ( ! isset( $revparts[ $count ] ) || $parent->post_name != $revparts[ $count ] )
-          break;
-          $p = $parent;
-        }
-      }
-    }
-  }
-  else {
-    $revparts = array_reverse( $parts );
-    return $revparts[0];
-  }
-  if ( isset($p) )
-  return $p->ID;
-
-  return null;
-}
-
 // Create Admin widget for post/page authentication
 @$authentic_user_meta = new metabox('authentic_user');
 $authentic_user_meta->title = 'Authenticated Users Only';
@@ -213,44 +173,47 @@ HEREHTML;
 /* After declaring your metaboxes, add the two hooks to make it all go! */
 add_action('admin_menu', 'create_box');
 add_action('save_post', 'save_box');
+add_action('wp', 'checkAccessControls');
 
-// Get authentication option
-$advancedOptions = get_option('authentication_settings');
-$feed_auth = isset ($advancedOptions['feed_auth_mode']) ? $advancedOptions['feed_auth_mode'] : 0;
-$query = explode('=', $_SERVER['QUERY_STRING']);
-$feed_url = explode('/', $_SERVER['REQUEST_URI']);
+function checkAccessControls() {
 
-// current url to post id
-$url1 = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-$post_id = custom_get_page_by_path($url1);
+  // Get authentication option
+  $advancedOptions = get_option('authentication_settings');
+  $feed_auth = isset ($advancedOptions['feed_auth_mode']) ? $advancedOptions['feed_auth_mode'] : 0;
+  $query = explode('=', $_SERVER['QUERY_STRING']);
+  $feed_url = explode('/', $_SERVER['REQUEST_URI']);
 
-// Condition to authenticate post/page, feed and site
-if($query[0] == 'p' || $query[0] == 'page_id' || isset($post_id)) {
-  if(!isset($post_id)) {
-    $postid = url_to_postid($_SERVER[ 'REQUEST_URI' ]);
-  }
-  else {
-    $postid = $post_id;
-  }
-  $authentic_user_info = get_post_meta($postid, 'metabox');
-  
-  if(count($authentic_user_info) == 0) {
-    $auth_flag = isset($advancedOptions['default_auth_mode']) ? $advancedOptions['default_auth_mode'] : 0;
-    $authenticator = new SnExtendAuthentication($auth_flag);
-  }
-  else if(count($authentic_user_info) > 0 && $authentic_user_info[0]['authentic_user']['authentic_user_value'] == 1) {
-    $auth_flag = 1;
-    $authenticator = new SnExtendAuthentication($auth_flag);
-  }
-}
+  global $post;
+  $post_id = $post->ID;
 
-elseif($query[0] == 'feed' || (isset ($feed_url[2]) && $feed_url[2] == 'feed')) {
-  if(isset($feed_auth) && $feed_auth == 1) {
-    $auth_flag = 1;
-    $authenticator = new SnExtendAuthentication($auth_flag);
+  // Condition to authenticate post/page, feed and site
+  if($query[0] == 'p' || $query[0] == 'page_id' || isset($post_id)) {
+    if(!isset($post_id)) {
+      $postid = url_to_postid($_SERVER[ 'REQUEST_URI' ]);
+    }
+    else {
+      $postid = $post_id;
+    }
+    $authentic_user_info = get_post_meta($postid, 'metabox');
+    
+    if(count($authentic_user_info) == 0) {
+      $auth_flag = isset($advancedOptions['default_auth_mode']) ? $advancedOptions['default_auth_mode'] : 0;
+      $authenticator = new SnExtendAuthentication($auth_flag);
+    }
+    else if(count($authentic_user_info) > 0 && $authentic_user_info[0]['authentic_user']['authentic_user_value'] == 1) {
+      $auth_flag = 1;
+      $authenticator = new SnExtendAuthentication($auth_flag);
+    }
   }
-}
-else { 
-    $auth_flag = isset($advancedOptions['default_auth_mode']) ? $advancedOptions['default_auth_mode'] : 0;
-    $authenticator = new SnExtendAuthentication($auth_flag);
+
+  elseif($query[0] == 'feed' || (isset ($feed_url[2]) && $feed_url[2] == 'feed')) {
+    if(isset($feed_auth) && $feed_auth == 1) {
+      $auth_flag = 1;
+      $authenticator = new SnExtendAuthentication($auth_flag);
+    }
+  }
+  else { 
+      $auth_flag = isset($advancedOptions['default_auth_mode']) ? $advancedOptions['default_auth_mode'] : 0;
+      $authenticator = new SnExtendAuthentication($auth_flag);
+  }
 }
